@@ -2,21 +2,23 @@
 
 > Source of truth for in-flight work. Humans and agents both write here.
 > This file is **committed** to the repo. It survives sessions, machines,
-> and context compactions. Issues live in Rivendell (rex/patchbay).
+> and context compactions. Issues live in Rivendell (rex/patchbay-tui).
 >
-> Branch: `main` (trunk) · Owner (human): Pierce · Last update: 2026-11-15 by Claude Opus 5.5
+> Branch: `main` (trunk) · Owner (human): Pierce · Last update: 2026-11-23 by Claude Fable 5.2
 
 ## 0. TL;DR for a fresh agent session
 
 `patchbay` opens the patch panel: sources left, outputs right, click one then
 the other and a cable is drawn. Per-route volume, the silent-route warning and
-a permanent Finder source (with QuickLook) have all shipped. **Next:** whatever
-Pierce asks for; nothing is queued. Never add an event tap.
+a permanent Finder source (with QuickLook) have all shipped. This repo is now
+`patchbay-tui`; the macOS app lives in rex/patchbay and builds on
+`PatchbayCore` from here. **Next:** engine work the app asks for. Never add an
+event tap.
 
 ## Standing user directives
 
 - Work directly on `main`: no feature branches, no PRs. Keep every gate, and push each commit (Pierce, 2026-11-15).
-- It has to be a TUI: nobody should have to remember device names (Pierce, 2026-11-15).
+- Nobody should have to remember device names: outputs are always picked from a live list (Pierce, 2026-11-15). This repo is the terminal front end; the menu bar and window app is rex/patchbay (Pierce, 2026-11-23).
 - Public repo: no secrets land in it (Pierce, 2026-11-15).
 - Don't copy jkjoplin/AudioRouter code; it has no license.
 
@@ -57,6 +59,7 @@ Statuses: `⏸ pending` · `🟡 in-prog` · `✅ done` · `🔴 blocked`
 
 ## 4. Recent decisions (append-only, newest first)
 
+- 2026-11-23 — Renamed to `patchbay-tui` at `~/Code/__APPS/terminal/patchbay-tui`. The name `patchbay` belongs to the macOS app repo. `PatchbayCore` is exported as a library product for it (Pierce, #17).
 - 2026-11-15 — The terminal running patchbay needs "System Audio Recording"; without it taps are silent and the app is muted. A warning is #8 (found when iTerm2 lacked it).
 - 2026-11-15 — Repo lives at `~/Code/__APPS/terminal/patchbay`, public on GitHub (Pierce).
 - 2026-11-15 — Name: patchbay (Pierce).
@@ -67,6 +70,9 @@ Statuses: `⏸ pending` · `🟡 in-prog` · `✅ done` · `🔴 blocked`
    Finder route waiting with no audio processes until a QuickLook preview starts.
 
 ## 6. Handoff note
+
+2026-11-23: repo renamed to patchbay-tui; the app repo (rex/patchbay) pins
+this one by commit, so push engine changes here first, then move the pin there.
 
 2026-11-15: engine built and measured on this Mac (Scarlett 44.1 kHz,
 BlackHole 48 kHz). The first design (destination inside the aggregate) was

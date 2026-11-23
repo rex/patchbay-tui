@@ -4,11 +4,11 @@
      CLAUDE.md and GEMINI.md are symlinks to this file. Keep under 150 lines. -->
 
 ## 1. Project snapshot
-- **What**: a terminal UI that routes each Mac app's audio to an output device picked from a live list.
+- **What**: a terminal UI that routes each Mac app's audio to an output device picked from a live list, and the home of the routing engine (`PatchbayCore`, a library product). The macOS menu bar and window app is a separate repo, rex/patchbay, and depends on that library.
 - **Runtime**: Swift 6 (language mode 6, strict concurrency), SwiftPM, macOS 15+; Core Audio process taps (`CATapDescription`, `AudioHardwareCreateProcessTap`), a tap-only private aggregate, a lock-free ring, and an output-only AUHAL per route.
 - **Infra**: none. A local binary; CI is GitHub Actions on macOS.
-- **Owner**: Pierce. Work is tracked in Rivendell (rex/patchbay issues).
-- **Non-goals**: no menu-bar app, no EQ or effects, no system-wide hotkeys, no daemon or login item. (Per-route volume is in, as software gain: #9.)
+- **Owner**: Pierce. Work is tracked in Rivendell (rex/patchbay-tui issues).
+- **Non-goals**: no graphical UI in this repo (that is rex/patchbay), no system-wide hotkeys, no daemon or login item. (Per-route volume is in, as software gain: #9.) `PatchbayCore` is a dependency of the app: changing a public name or signature there breaks its build.
 
 ## 2. Setup
 

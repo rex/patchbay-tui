@@ -6,7 +6,9 @@ let package = Package(
   // Process taps need 14.2; the lock-free ring buffer's Atomic needs 15.
   platforms: [.macOS(.v15)],
   products: [
-    .executable(name: "patchbay", targets: ["patchbay"])
+    .executable(name: "patchbay", targets: ["patchbay"]),
+    // The engine on its own, for the macOS app (rex/patchbay) to depend on.
+    .library(name: "PatchbayCore", targets: ["PatchbayCore"]),
   ],
   targets: [
     .target(name: "PatchbayCore"),

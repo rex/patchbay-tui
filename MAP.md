@@ -7,7 +7,7 @@
 
 | Target | Purpose | Entry point |
 |---|---|---|
-| `PatchbayCore` | Routing engine: discovery, taps, ring buffer, output units, volume; `RouteBook` (wishes vs live routes) and `RouteMemory` (routes.json) | `Route.swift`, `RouteBook.swift` |
+| `PatchbayCore` (library product) | Routing engine: discovery, taps, ring buffer, output units, volume; `RouteBook` (wishes vs live routes) and `RouteMemory` (routes.json). The macOS app (rex/patchbay) links it, pinned by commit | `Route.swift`, `RouteBook.swift` |
 | `PatchbayTUI` | Pure patch-panel logic: keys and clicks, state, layout, cables | `TUIState.swift`, `Screen.swift` |
 | `patchbay` (executable) | Terminal I/O and the refresh loop for the TUI, plus `list` / `route` | `main.swift`, `Controller.swift` |
 

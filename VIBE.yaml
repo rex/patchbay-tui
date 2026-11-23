@@ -16,7 +16,7 @@ kind: vibe-policy
 schema_version: 1
 
 project:
-  name: patchbay
+  name: patchbay-tui
   # greenfield = new repo still scaffolding; brownfield = existing repo
   lifecycle: greenfield
   # Short stable id for the dominant stack (e.g. python-fastapi,
@@ -55,6 +55,14 @@ project:
       summary: Public repo; no secrets in it, ever.
       rationale: Pre-commit gitleaks + detect-secrets, CI gitleaks over full
         history, GitHub push protection.
+      status: locked
+    - id: D4
+      date: "2026-11-23"
+      decided_by: Pierce
+      summary: This repo is patchbay-tui, the terminal front end and the home of
+        PatchbayCore. The macOS app is a separate repo, rex/patchbay.
+      rationale: D1's "not a menu-bar app" now applies to this repo only. The
+        engine stays here, public, so both front ends build on one copy.
       status: locked
 
 workflow:

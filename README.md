@@ -1,8 +1,12 @@
-# patchbay
+# patchbay-tui
 
 A terminal UI for sending each Mac app's audio to the output device you pick.
 Chrome to the speakers and Finder previews to your AirPods, at the same time,
 picked from live lists so you never type a device name.
+
+This repo holds the `patchbay` command and the routing engine behind it,
+`PatchbayCore`, which is also a Swift package library product. A macOS menu
+bar and window app builds on the same engine in its own repo.
 
 **Status:** early, and it works. Run `patchbay` for the patch panel:
 

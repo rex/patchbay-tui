@@ -30,6 +30,17 @@ version bumps).
 
 ---
 
+## [0.10.0] — 2026-11-23 — Agent: Claude Fable 5.2
+### Added
+- `PatchbayCore` is now a library product, so the macOS app (rex/patchbay)
+  can depend on the engine. The `patchbay` command is unchanged.
+
+### Changed
+- The repo is now `patchbay-tui`. The name `patchbay` belongs to the macOS
+  app repo. AGENTS.md, TASK_STATE.md, PROGRESS.md, MAP.md, the README and
+  VIBE.yaml (new decision D4) say so, and the old "no menu-bar app" non-goal
+  now reads "no graphical UI in this repo".
+
 ## [0.9.0] — 2026-11-17 — Agent: Claude Opus 5.5
 ### Changed
 - Adopt agentic-skeleton 0.54.0's include-based Makefile: the gates live in the skeleton-owned make/agentic-skeleton.mk and the Makefile keeps this repo's own recipes, so make check-skeleton stops failing on them. Verified against make's rule database; repo targets, variables and the default goal are unchanged.
