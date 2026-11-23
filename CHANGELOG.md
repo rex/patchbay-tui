@@ -30,6 +30,23 @@ version bumps).
 
 ---
 
+## [0.11.0] — 2026-11-23 — Agent: Claude Fable 5.2
+### Added
+- Engine pieces the macOS app needs. The terminal UI does not use them yet.
+  - `RouteBook.meter(of:)` and `RouteStats.takeMeter()`: a second peak reader
+    for a level display that polls many times a second. `measure` and the
+    silence watch keep their own once-a-second peak.
+  - `RouteBook.setPaused(_:)` and `isPaused`: pausing stops every route at
+    once and keeps every wish; `reconcile` builds nothing until resumed.
+  - `RouteBook.rebuild(_:)`: tears one live route down so the next
+    `reconcile` builds it fresh.
+  - `OutputDevice.makeDefault()`: sets the Mac's default output.
+  - `OutputDevice.onListChange(queue:_:)`: fires when a device is connected or
+    removed or the default output changes.
+- Tests for pausing, rebuilding and the two separate peaks. Setting the
+  default output and the device listener touch real hardware, so they are
+  not run in `swift test`.
+
 ## [0.10.0] — 2026-11-23 — Agent: Claude Fable 5.2
 ### Added
 - `PatchbayCore` is now a library product, so the macOS app (rex/patchbay)

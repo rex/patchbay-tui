@@ -110,15 +110,25 @@ public final class Route {
 
 /// Counters the IO thread bumps. Plain aligned stores: good enough for a meter.
 public final class RouteStats: @unchecked Sendable {
-  private let storage = UnsafeMutablePointer<Float>.allocate(capacity: 3)
+  private let storage = UnsafeMutablePointer<Float>.allocate(capacity: 4)
 
-  init() { storage.initialize(repeating: 0, count: 3) }
+  init() { storage.initialize(repeating: 0, count: 4) }
   deinit { storage.deallocate() }
 
   func record(peak: Float, inputChannels: Int) {
     storage[0] += 1
     storage[1] = max(storage[1], peak)
     storage[2] = Float(inputChannels)
+    storage[3] = max(storage[3], peak)
+  }
+
+  /// The loudest sample since the last call, then reset. A second reader beside
+  /// `take()`, so a level display can poll many times a second without eating
+  /// the once-a-second peak the silence watch counts on.
+  public func takeMeter() -> Float {
+    let peak = storage[3]
+    storage[3] = 0
+    return peak
   }
 
   /// IO cycles run, the loudest sample since the last call (then reset), and how

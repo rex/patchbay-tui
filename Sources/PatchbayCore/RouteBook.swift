@@ -24,7 +24,13 @@ public final class RouteBook {
   /// Routed, but nothing is playing through it right now.
   public func isWaiting(_ key: String) -> Bool { wishes[key] != nil && routes[key] == nil }
   public func level(of key: String) -> Float { levels[key] ?? 0 }
+  /// The loudest sample on a live route since the last call. Poll it as often as
+  /// a level display needs; `measure` and the silence watch are not disturbed.
+  public func meter(of key: String) -> Float { routes[key]?.stats.takeMeter() ?? 0 }
   public func isSilent(_ key: String) -> Bool { watches[key]?.isSilent ?? false }
+  /// While paused nothing is tapped: every wish waits, so every app is audible
+  /// on its normal output. The way out when routes are silent and apps are muted.
+  public private(set) var isPaused = false
   /// Every routed app, live or waiting, as key → name: these stay listed.
   public var routedApps: [String: String] {
     wishes.keys.reduce(into: [:]) { $0[$1] = appNames[$1] ?? $1 }
@@ -52,6 +58,12 @@ public final class RouteBook {
   public func reconcile(apps: [AudioApp], devices: [OutputDevice]) -> String? {
     var message: String?
     for (key, uid) in wishes {
+      if isPaused {
+        // Keep the names fresh so waiting routes still read well; build nothing.
+        if let app = apps.first(where: { $0.key == key }) { appNames[key] = app.name }
+        if let device = devices.first(where: { $0.uid == uid }) { outputNames[key] = device.name }
+        continue
+      }
       let app = apps.first { $0.key == key }
       if let app { appNames[key] = app.name }
       let name = appNames[key] ?? key
@@ -105,6 +117,24 @@ public final class RouteBook {
   public func stopAll() {
     for route in routes.values { route.stop() }
     routes.removeAll()
+  }
+
+  /// Pausing stops every route at once and keeps every wish. Resuming lets the
+  /// next `reconcile` build them again.
+  public func setPaused(_ paused: Bool) {
+    isPaused = paused
+    guard paused else { return }
+    stopAll()
+    levels.removeAll()
+    watches.removeAll()
+  }
+
+  /// Tears one live route down so the next `reconcile` builds it fresh, for a
+  /// route that has gone quiet while others carry sound.
+  public func rebuild(_ key: String) {
+    routes.removeValue(forKey: key)?.stop()
+    levels[key] = nil
+    watches[key] = nil
   }
 
   /// Every wish, for saving: app, output, and the app's volume. Apps known only by
